@@ -108,7 +108,7 @@ export const App = () => {
         Lofy
       </h1>
       <h2 className="text-lg text-neutral-400 mb-6 text-center">
-        The easiest way to make a logo that doesn't suck
+        A logo generator that just works
       </h2>
       <div className="flex flex-col items-center justify-center gap-2 bg-neutral-800 p-6 rounded-md border-neutral-600 border-2 border-dashed min-w-xs md:min-w-sm relative">
         {step === 0 && (
