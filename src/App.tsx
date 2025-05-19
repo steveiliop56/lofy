@@ -103,77 +103,94 @@ export const App = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-neutral-900 p-6">
-      <h1 className="text-6xl bg-gradient-to-r from-blue-600 to-sky-400 to-50% text-transparent bg-clip-text font-bold inline-block leading-relaxed">
-        Lofy
-      </h1>
-      <h2 className="text-lg text-neutral-400 mb-6 text-center">
-        A logo generator that just works
-      </h2>
-      <div className="flex flex-col items-center justify-center gap-2 bg-neutral-800 p-6 rounded-md border-neutral-600 border-2 border-dashed min-w-xs md:min-w-sm relative">
-        {step === 0 && (
-          <>
-            <input
-              type="file"
-              accept="image/png"
-              onChange={onUpload}
-              className="opacity-0 min-w-full min-h-full absolute top-0 left-0 cursor-pointer"
-            />
-            <Upload className="size-8 text-neutral-200" />
-            <p className="text-muted-foreground">
-              Click to upload a file or drag 'n' drop
-            </p>
-          </>
-        )}
-        {step === 1 && (
-          <>
-            <img
-              src={URL.createObjectURL(file!)}
-              className="size-32 p-3 rounded-md"
-              style={{
-                backgroundColor: color ? color : "#ffffffff",
-              }}
-            />
-            <h3 className="text-muted-foreground">
-              Select a color, leave empty for auto selection
-            </h3>
-            <form onSubmit={onSubmit} className="min-w-full">
-              <Input
-                placeholder="#ffffff"
-                maxLength={9}
-                name="color"
-                className="mb-3"
-                onChange={(e) => setColor(e.target.value)}
+    <div className="flex flex-col bg-neutral-900 min-h-screen justify-between">
+      <div className="flex flex-col items-center mt-48">
+        <h1 className="text-6xl bg-gradient-to-r from-blue-600 to-sky-400 to-50% text-transparent bg-clip-text font-bold inline-block leading-relaxed">
+          Lofy
+        </h1>
+        <h2 className="text-lg text-neutral-400 mb-6 text-center">
+          A logo generator that just works
+        </h2>
+        <div className="flex flex-col items-center justify-center gap-2 bg-neutral-800 p-6 rounded-md border-neutral-600 border-2 border-dashed min-w-xs md:min-w-sm relative">
+          {step === 0 && (
+            <>
+              <input
+                type="file"
+                accept="image/png"
+                onChange={onUpload}
+                className="opacity-0 min-w-full min-h-full absolute top-0 left-0 cursor-pointer"
               />
-              <Button type="submit" className="min-w-full">
-                Generate
-              </Button>
-            </form>
-          </>
-        )}
-        {step === 2 && (
-          <>
-            {loading ? (
-              <>
-                <LoaderCircle className="animate-spin" />
-                <p className="text-muted-foreground">Loading...</p>
-              </>
-            ) : (
-              <>
-                <img
-                  src={URL.createObjectURL(new Blob([logo!]))}
-                  className="size-32 rounded-lg mb-3"
+              <Upload className="size-8 text-neutral-200" />
+              <p className="text-muted-foreground">
+                Click to upload a file or drag 'n' drop
+              </p>
+            </>
+          )}
+          {step === 1 && (
+            <>
+              <img
+                src={URL.createObjectURL(file!)}
+                className="size-32 p-3 rounded-md"
+                style={{
+                  backgroundColor: color ? color : "#ffffffff",
+                }}
+              />
+              <h3 className="text-muted-foreground">
+                Select a color, leave empty for auto selection
+              </h3>
+              <form onSubmit={onSubmit} className="min-w-full">
+                <Input
+                  placeholder="#ffffff"
+                  maxLength={9}
+                  name="color"
+                  className="mb-3"
+                  onChange={(e) => setColor(e.target.value)}
                 />
-                <Button onClick={() => saveFile(new Blob([logo!]), "logo.jpg")}>
-                  Download
+                <Button type="submit" className="min-w-full">
+                  Generate
                 </Button>
-                <Button onClick={onReset} variant="outline">
-                  Start Over
-                </Button>
-              </>
-            )}
-          </>
-        )}
+              </form>
+            </>
+          )}
+          {step === 2 && (
+            <>
+              {loading ? (
+                <>
+                  <LoaderCircle className="animate-spin" />
+                  <p className="text-muted-foreground">Loading...</p>
+                </>
+              ) : (
+                <>
+                  <img
+                    src={URL.createObjectURL(new Blob([logo!]))}
+                    className="size-32 rounded-lg mb-3"
+                  />
+                  <Button
+                    onClick={() => saveFile(new Blob([logo!]), "logo.jpg")}
+                  >
+                    Download
+                  </Button>
+                  <Button onClick={onReset} variant="outline">
+                    Start Over
+                  </Button>
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col items-center justify-center mb-3">
+        <p className="text-muted-foreground">
+          Source code on{" "}
+          <a
+            href="https://github.com/steveiliop56/lofy"
+            target="_blank"
+            className="underline"
+          >
+            Github
+          </a>
+          .
+        </p>
       </div>
     </div>
   );
