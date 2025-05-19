@@ -111,7 +111,7 @@ export const App = () => {
         <h2 className="text-lg text-neutral-400 mb-6 text-center">
           A logo generator that just works
         </h2>
-        <div className="flex flex-col items-center justify-center gap-2 bg-neutral-800 p-6 rounded-md border-neutral-600 border-2 border-dashed min-w-xs md:min-w-sm relative">
+        <div className="flex flex-col items-center justify-center gap-2 bg-neutral-800 p-6 rounded-md border-neutral-700 hover:border-neutral-600 transition-colors delay-100 border-2 border-dashed max-w-xs md:max-w-sm relative text-center">
           {step === 0 && (
             <>
               <input
@@ -121,8 +121,11 @@ export const App = () => {
                 className="opacity-0 min-w-full min-h-full absolute top-0 left-0 cursor-pointer"
               />
               <Upload className="size-8 text-neutral-200" />
-              <p className="text-muted-foreground">
+              <h3 className="text-md">
                 Click to upload a file or drag 'n' drop
+              </h3>
+              <p className="text-muted-foreground">
+                Only PNG files are supported at the moment
               </p>
             </>
           )}
