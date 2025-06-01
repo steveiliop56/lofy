@@ -111,7 +111,7 @@ export const App = () => {
         <h2 className="text-lg text-neutral-400 mb-6 text-center">
           A logo generator that just works
         </h2>
-        <div className="flex flex-col items-center justify-center gap-2 bg-neutral-800 p-6 rounded-md border-neutral-700 hover:border-neutral-600 transition-colors delay-100 border-2 border-dashed max-w-xs md:max-w-sm relative text-center">
+        <div className="flex flex-col items-center justify-center bg-neutral-800 p-6 rounded-md border-neutral-700 hover:border-neutral-600 transition-colors delay-100 border-2 border-dashed w-xs md:w-sm relative text-center">
           {step === 0 && (
             <>
               <input
@@ -120,8 +120,8 @@ export const App = () => {
                 onChange={onUpload}
                 className="opacity-0 min-w-full min-h-full absolute top-0 left-0 cursor-pointer"
               />
-              <Upload className="size-8 text-neutral-200" />
-              <h3 className="text-md">
+              <Upload className="size-8 text-neutral-200 mb-3" />
+              <h3 className="text-md mb-1">
                 Click to upload a file or drag 'n' drop
               </h3>
               <p className="text-muted-foreground">
@@ -133,14 +133,14 @@ export const App = () => {
             <>
               <img
                 src={URL.createObjectURL(file!)}
-                className="size-32 p-3 rounded-md"
+                className="size-32 p-3 rounded-lg mb-3"
                 style={{
                   backgroundColor: color ? color : "#ffffffff",
                 }}
               />
-              <h3 className="text-muted-foreground">
+              <p className="text-muted-foreground mb-3">
                 Select a color, leave empty for auto selection
-              </h3>
+              </p>
               <form onSubmit={onSubmit} className="min-w-full">
                 <Input
                   placeholder="#ffffff"
@@ -159,7 +159,7 @@ export const App = () => {
             <>
               {loading ? (
                 <>
-                  <LoaderCircle className="animate-spin" />
+                  <LoaderCircle className="animate-spin mb-3" />
                   <p className="text-muted-foreground">Loading...</p>
                 </>
               ) : (
@@ -168,12 +168,20 @@ export const App = () => {
                     src={URL.createObjectURL(new Blob([logo!]))}
                     className="size-32 rounded-lg mb-3"
                   />
+                  <p className="text-muted-foreground mb-3">
+                    Your logo is ready for download!
+                  </p>
                   <Button
                     onClick={() => saveFile(new Blob([logo!]), "logo.jpg")}
+                    className="min-w-full mb-3"
                   >
                     Download
                   </Button>
-                  <Button onClick={onReset} variant="outline">
+                  <Button
+                    onClick={onReset}
+                    variant="outline"
+                    className="min-w-full"
+                  >
                     Start Over
                   </Button>
                 </>
