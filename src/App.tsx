@@ -11,16 +11,16 @@ import { LoaderCircle, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
+import { Logo } from "./components/logo/logo";
 
 export const App = () => {
-  const [step, setStep] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null);
   const [color, setColor] = useState<string | null>(null);
   const [logo, setLogo] = useState<Buffer | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (step === 2) {
+    if (file) {
       const reader = new FileReader();
 
       reader.onload = async (e) => {
@@ -59,7 +59,7 @@ export const App = () => {
 
       reader.readAsArrayBuffer(file!);
     }
-  }, [step]);
+  }, [file, color]);
 
   const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -75,27 +75,9 @@ export const App = () => {
     }
 
     setFile(file);
-    setStep(1);
-  };
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const color = (
-      e.currentTarget.elements.namedItem("color") as HTMLInputElement
-    ).value;
-
-    if (color.length > 0 && !/^#[0-9A-Fa-f]+$/i.test(color)) {
-      toast.error("Color must be a hex color");
-      return;
-    }
-
-    setColor(color.length > 0 ? color : null);
-    setStep(2);
   };
 
   const onReset = () => {
-    setStep(0);
     setFile(null);
     setColor(null);
     setLogo(null);
@@ -104,7 +86,7 @@ export const App = () => {
 
   return (
     <div className="flex flex-col bg-neutral-900 min-h-screen justify-between">
-      <div className="flex flex-col items-center mt-48">
+      <div className="flex flex-col items-center mt-30">
         <h1 className="text-6xl bg-gradient-to-r from-blue-600 to-sky-400 to-50% text-transparent bg-clip-text font-bold inline-block leading-relaxed">
           Lofy
         </h1>
@@ -112,7 +94,7 @@ export const App = () => {
           A logo generator that just works
         </h2>
         <div className="flex flex-col items-center justify-center bg-neutral-800 p-6 rounded-md border-neutral-700 hover:border-neutral-600 transition-colors delay-100 border-2 border-dashed w-xs md:w-sm relative text-center">
-          {step === 0 && (
+          {!file ? (
             <>
               <input
                 type="file"
@@ -128,34 +110,7 @@ export const App = () => {
                 Only PNG files are supported at the moment
               </p>
             </>
-          )}
-          {step === 1 && (
-            <>
-              <img
-                src={URL.createObjectURL(file!)}
-                className="size-32 p-3 rounded-lg mb-3"
-                style={{
-                  backgroundColor: color ? color : "#ffffffff",
-                }}
-              />
-              <p className="text-muted-foreground mb-3">
-                Select a color, leave empty for auto selection
-              </p>
-              <form onSubmit={onSubmit} className="min-w-full">
-                <Input
-                  placeholder="#ffffff"
-                  maxLength={9}
-                  name="color"
-                  className="mb-3"
-                  onChange={(e) => setColor(e.target.value)}
-                />
-                <Button type="submit" className="min-w-full">
-                  Generate
-                </Button>
-              </form>
-            </>
-          )}
-          {step === 2 && (
+          ) : (
             <>
               {loading ? (
                 <>
@@ -164,13 +119,20 @@ export const App = () => {
                 </>
               ) : (
                 <>
-                  <img
-                    src={URL.createObjectURL(new Blob([logo!]))}
-                    className="size-32 rounded-lg mb-3"
+                  <Logo
+                    url={URL.createObjectURL(new Blob([logo!]))}
+                    className="mb-3"
                   />
                   <p className="text-muted-foreground mb-3">
-                    Your logo is ready for download!
+                    Select a color, leave empty for auto selection
                   </p>
+                  <Input
+                    placeholder="#ffffff"
+                    maxLength={9}
+                    name="color"
+                    className="mb-3"
+                    onChange={(e) => setColor(e.target.value)}
+                  />
                   <Button
                     onClick={() => saveFile(new Blob([logo!]), "logo.jpg")}
                     className="min-w-full mb-3"
