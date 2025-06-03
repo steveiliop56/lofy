@@ -86,7 +86,7 @@ export const App = () => {
 
   return (
     <div className="flex flex-col bg-neutral-900 min-h-screen justify-between">
-      <div className="flex flex-col items-center mt-30">
+      <div className="flex flex-col items-center mt-40">
         <h1 className="text-6xl bg-gradient-to-r from-blue-600 to-sky-400 to-50% text-transparent bg-clip-text font-bold inline-block leading-relaxed">
           Lofy
         </h1>
